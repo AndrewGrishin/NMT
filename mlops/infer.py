@@ -130,7 +130,7 @@ def infer_step(
         translated = " ".join(translated[:-2]) + translated[-2]
         ans.append(translate_sentence)
 
-    with open("output.txt", "w") as file:
+    with open("./output.txt", "w") as file:
         print("\n".join(ans), end="", file=file)
 
 

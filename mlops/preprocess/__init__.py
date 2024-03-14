@@ -8,6 +8,21 @@ from mlops.constants import MAX_SIZE, MIN_FREQ, SRC_LANG, TRG_LANG
 
 
 def get_path_to_train_data() -> str:
+    """Give path to training data
+
+    Returns path to the training dataset `data.tsv`.
+    If unavailable - through OSError.
+
+    Args:
+
+        None: nothing to take in.
+
+    Return:
+
+        str: path to the training dataset `data.tsv`.
+
+    """
+
     try:
         file = open("tmp.txt", "r")
 
