@@ -14,8 +14,8 @@ The project will be assembled as a CLI (Command Line Interface) programme allowi
 
 To be even more precise let's derive the step by step scheme:
 
-1. `python -m train path/to/train/dataset` $\Rightarrow$ trains the model and saves weights to the `.ptr.tar` file.
-2. `python -m infer path/to/test/dataset` $\Rightarrow$ evaluates the model on the given dataset. In our case this step produces the `output.txt` file with translated data.
+1. `python -m commands train path/to/train/dataset` $\Rightarrow$ trains the model and saves weights to the `.ptr.tar` file.
+2. `python -m commands infer path/to/test/dataset` $\Rightarrow$ evaluates the model on the given dataset. In our case this step produces the `output.txt` file with translated data.
 
 So, there are only 2 options in the programme: to train and to evaluate the model. In addition: it is important to specify the format of train and test datasets. The train file should look like:
 
