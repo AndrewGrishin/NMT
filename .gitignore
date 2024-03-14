@@ -2,6 +2,7 @@
 data/
 notebooks/
 tests/
+__pycache__/
 *.ipynb
 *.vscode
 *.ptr.tar
