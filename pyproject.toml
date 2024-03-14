@@ -10,6 +10,8 @@ python = "^3.11"
 tqdm = "^4.66.2"
 torch = "^2.2.1"
 torchtext = "0.6.0"
+fire = "^0.6.0"
+spacy = "^3.7.4"
 
 
 [build-system]
