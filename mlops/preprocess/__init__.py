@@ -4,8 +4,6 @@ from typing import Optional
 import spacy
 from torchtext.data import Field, TabularDataset
 
-from mlops.constants import MAX_SIZE, MIN_FREQ, SRC_LANG, TRG_LANG
-
 
 def get_path_to_train_data() -> str:
     """Give path to training data
@@ -36,6 +34,10 @@ def get_path_to_train_data() -> str:
 
 
 def init_fields(
+    SRC_LANG: str,
+    TRG_LANG: str,
+    MIN_FREQ: int,
+    MAX_SIZE: int,
     path: str = "",
 ) -> tuple[Field, Field]:
     """Initialize fields

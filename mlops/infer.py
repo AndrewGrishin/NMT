@@ -154,7 +154,20 @@ def infer(path: str) -> None:
         os.mkdir("./output")
 
     dataset = read_test_data(path=path)
-    src, trg = init_fields()
+    params_ml = init_ml_constants(
+        need="model",
+    )
+    params_preprocess = init_ml_constants(
+        need="preprocess",
+    )
+
+    params = params_ml | params_preprocess
+    src, trg = init_fields(
+        SRC_LANG=params["src_lang"],
+        TRG_LANG=params["trg_lang"],
+        MIN_FREQ=params["min_freq"],
+        MAX_SIZE=params["max_size"],
+    )
     params_ml = init_ml_constants(
         need="model",
     )
@@ -163,7 +176,7 @@ def infer(path: str) -> None:
     TRG_VOC_SIZE = len(trg.vocab)
     SRC_PAD_IDX = trg.vocab.stoi["<pad>"]
     DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-    TRAIN_FLAG = False
+    TRAIN_FLAG = True
 
     model = init_model(
         train_flag=TRAIN_FLAG,
@@ -171,7 +184,8 @@ def infer(path: str) -> None:
         trg_voc_size=TRG_VOC_SIZE,
         src_pad_idx=SRC_PAD_IDX,  # type: ignore
         device=DEVICE,
-        **params_ml
+        **params_ml,
+        seed=params_preprocess["seed"]
     )
 
     infer_step(
@@ -180,5 +194,5 @@ def infer(path: str) -> None:
         src=src,
         trg=trg,
         device=DEVICE,
-        max_length=params_ml["max_len"],
+        max_length=params["max_len"],
     )

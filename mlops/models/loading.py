@@ -2,7 +2,6 @@ import sys
 
 import torch
 
-from mlops.constants import SEED
 from mlops.models.transformer import Transformer
 from mlops.utils import load_checkpoint, reproducibility
 
@@ -20,6 +19,7 @@ def init_model(
     dropout: float,
     max_len: int,
     device: str,
+    seed: int,
 ) -> Transformer:
     """Initialize model instance
 
@@ -48,7 +48,7 @@ def init_model(
     """
 
     if train_flag:
-        reproducibility(SEED)
+        reproducibility(seed)
 
     model = Transformer(
         embedding_size=emb_size,

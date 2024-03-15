@@ -7,8 +7,10 @@ from mlops.train import train
 
 warnings.filterwarnings("ignore")
 
-# train and infer are called
-# from the cli interface
-
 if __name__ == "__main__":
-    fire.Fire()
+    fire.Fire(
+        {
+            "infer": infer,
+            "train": train,
+        }
+    )
