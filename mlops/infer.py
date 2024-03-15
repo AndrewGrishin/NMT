@@ -176,7 +176,7 @@ def infer(path: str) -> None:
     TRG_VOC_SIZE = len(trg.vocab)
     SRC_PAD_IDX = trg.vocab.stoi["<pad>"]
     DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-    TRAIN_FLAG = True
+    TRAIN_FLAG = False
 
     model = init_model(
         train_flag=TRAIN_FLAG,
