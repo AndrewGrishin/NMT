@@ -1,5 +1,4 @@
 import os
-import sys
 from typing import Optional, Union
 
 import spacy
@@ -11,8 +10,6 @@ from mlops.models.loading import init_model
 from mlops.models.transformer import Transformer
 from mlops.preprocess import init_fields, read_test_data
 from mlops.utils import init_ml_constants
-
-sys.path.append("../")
 
 
 def translate_sentence(
