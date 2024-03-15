@@ -168,9 +168,6 @@ def infer(path: str) -> None:
         MIN_FREQ=params["min_freq"],
         MAX_SIZE=params["max_size"],
     )
-    params_ml = init_ml_constants(
-        need="model",
-    )
 
     SRC_VOC_SIZE = len(src.vocab)
     TRG_VOC_SIZE = len(trg.vocab)
