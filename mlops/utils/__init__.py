@@ -1,8 +1,11 @@
 import random
+import sys
 from typing import Any
 
 import numpy as np
 import torch
+import yaml
+from yaml.loader import SafeLoader
 
 from mlops.models.transformer import Transformer
 
@@ -83,3 +86,42 @@ def reproducibility(SEED: int) -> None:
     random.seed(SEED)
     np.random.seed(SEED)
     torch.backends.cudnn.deterministic = True
+
+
+def init_ml_constants(
+    need: str,
+    path: str = "config/ml.yaml",
+) -> dict:
+    """Initialize hyperparameters
+
+    Reads the yaml file and returns the dict.
+    of available hyperparameters.
+
+    Args:
+
+        path: str - address of ml.yaml configuration.
+
+    Return:
+
+        dict: dictionary structure of all hyperparameters.
+
+    """
+    try:
+        file = open(path, "r")
+    except OSError:
+        print("Cannot find file: {}.".format(path))
+        sys.exit()
+    else:
+        conf_vault = yaml.load(file, SafeLoader)
+        file.close()
+
+    if need not in set(list(conf_vault.keys())):
+        print(
+            "Expected: {}. Received: {}.".format(
+                list(conf_vault.keys()),
+                need,
+            )
+        )
+        sys.exit()
+
+    return conf_vault[need]

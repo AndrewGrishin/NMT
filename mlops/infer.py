@@ -1,3 +1,5 @@
+import os
+import sys
 from typing import Optional, Union
 
 import spacy
@@ -5,18 +7,12 @@ import torch
 from torchtext.data import Field
 from tqdm.auto import tqdm
 
-from mlops.constants import (
-    DROPOUT,
-    EMB_SIZE,
-    FORWARD_EXPANSION,
-    MAX_LEN,
-    NUM_DEC_LAYERS,
-    NUM_ENC_LAYERS,
-    NUM_HEADS,
-)
 from mlops.models.loading import init_model
 from mlops.models.transformer import Transformer
 from mlops.preprocess import init_fields, read_test_data
+from mlops.utils import init_ml_constants
+
+sys.path.append("../")
 
 
 def translate_sentence(
@@ -117,7 +113,7 @@ def infer_step(
 
     """
     ans = list()
-    pbar = tqdm(dataset, desc="Inference")
+    pbar = tqdm(dataset, desc="Inference", ncols=80)
     for sentence in pbar:
         translated = translate_sentence(
             model=model,
@@ -128,13 +124,15 @@ def infer_step(
             max_length=max_length,
         )
         translated = " ".join(translated[:-2]) + translated[-2]
-        ans.append(translate_sentence)
+        ans.append(translated)
 
-    with open("./output.txt", "w") as file:
+    output_file = "output.txt"
+    with open("./output/" + output_file, "w") as file:
         print("\n".join(ans), end="", file=file)
+    print("File {} added to directory output/.".format(output_file))
 
 
-def infer(path) -> None:
+def infer(path: str) -> None:
     """Inference phase for pretrained model.
 
     Load tuned weights of the model.
@@ -143,7 +141,7 @@ def infer(path) -> None:
 
     Args:
 
-        path: path to test dataset `test.txt`
+        path: str - path to test dataset `test.txt`
 
     Return:
 
@@ -151,27 +149,29 @@ def infer(path) -> None:
 
     """
 
+    # create folder to store output.txt
+    if "output" not in os.listdir():
+        os.mkdir("./output")
+
     dataset = read_test_data(path=path)
     src, trg = init_fields()
+    params_ml = init_ml_constants(
+        need="model",
+    )
 
     SRC_VOC_SIZE = len(src.vocab)
     TRG_VOC_SIZE = len(trg.vocab)
     SRC_PAD_IDX = trg.vocab.stoi["<pad>"]
     DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+    TRAIN_FLAG = False
 
     model = init_model(
-        train=False,
-        emb_size=EMB_SIZE,
-        num_heads=NUM_HEADS,
+        train_flag=TRAIN_FLAG,
         src_voc_size=SRC_VOC_SIZE,
         trg_voc_size=TRG_VOC_SIZE,
-        num_enc_layers=NUM_ENC_LAYERS,
-        num_dec_layers=NUM_DEC_LAYERS,
         src_pad_idx=SRC_PAD_IDX,  # type: ignore
-        dropout=DROPOUT,
-        max_len=MAX_LEN,
-        forward_expansion=FORWARD_EXPANSION,
         device=DEVICE,
+        **params_ml
     )
 
     infer_step(
@@ -180,5 +180,5 @@ def infer(path) -> None:
         src=src,
         trg=trg,
         device=DEVICE,
-        max_length=MAX_LEN,
+        max_length=params_ml["max_len"],
     )

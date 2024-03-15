@@ -1,7 +1,11 @@
+import warnings
+
 import fire
 
 from mlops.infer import infer
 from mlops.train import train
+
+warnings.filterwarnings("ignore")
 
 # train and infer are called
 # from the cli interface

@@ -35,7 +35,9 @@ def get_path_to_train_data() -> str:
     return path
 
 
-def init_fields(path: str = "") -> tuple[Field, Field]:
+def init_fields(
+    path: str = "",
+) -> tuple[Field, Field]:
     """Initialize fields
 
     Load the `tmp.txt` file with path to the train data `data.tsv`.

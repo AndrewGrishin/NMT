@@ -1,3 +1,5 @@
+import sys
+
 import torch
 
 from mlops.constants import SEED
@@ -6,7 +8,7 @@ from mlops.utils import load_checkpoint, reproducibility
 
 
 def init_model(
-    train: bool,
+    train_flag: bool,
     emb_size: int,
     num_heads: int,
     src_voc_size: int,
@@ -26,7 +28,7 @@ def init_model(
 
     Args:
 
-        train: bool - if we are training the model or not.
+        train_flag: bool - if we are training the model or not.
         emb_size: int - size of the embedding in model's block.
         num_heads: int - number of attention heads in the model.
         src_voc_size: int - size of the source vocabulary.
@@ -45,7 +47,7 @@ def init_model(
 
     """
 
-    if train:
+    if train_flag:
         reproducibility(SEED)
 
     model = Transformer(
@@ -62,10 +64,19 @@ def init_model(
         device=device,
     ).to(device)
 
-    if not train:
+    if train_flag:
+        return model
+    else:
+        try:
+            loaded = torch.load(
+                "./checkpoint.ptr.tar",
+            )
+        except OSError:
+            print("File checkpoint.ptr.tar not found!")
+            print("Perhaps: model is not trained.")
+            sys.exit()
         load_checkpoint(
-            checkpoint=torch.load("./checkpoint.ptr.tar"),
+            checkpoint=loaded,
             model=model,
         )
-
-    return model
+        return model
