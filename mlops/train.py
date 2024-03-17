@@ -181,13 +181,6 @@ def train(path: str) -> None:
         amsgrad=True,
     )
 
-    # lr_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-    #     optimizer,
-    #     factor=0.1,
-    #     patience=10,
-    #     verbose=True,
-    # )
-
     lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(
         optimizer,
         milestones=[0, 4, 8, 16],
