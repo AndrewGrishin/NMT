@@ -8,7 +8,7 @@ model:
   max_len: 110
 train:
   batch_size: 64
-  epochs: 2
+  epochs: 20
   lr: 0.001
 preprocess:
   max_size: 100_000_000
