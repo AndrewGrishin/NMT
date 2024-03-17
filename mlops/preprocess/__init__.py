@@ -2,7 +2,7 @@ import sys
 from typing import Optional
 
 import spacy
-from torchtext.data import Field, TabularDataset
+from torchtext.data import BucketIterator, Field, TabularDataset
 
 
 def get_path_to_train_data() -> str:
@@ -22,8 +22,7 @@ def get_path_to_train_data() -> str:
     """
 
     try:
-        file = open("tmp.txt", "r")
-
+        file = open("./output/tmp.txt", "r")
     except OSError:
         print("Model was not trained!")
         sys.exit()
@@ -136,3 +135,56 @@ def read_test_data(path: str) -> Optional[list[str]]:
         dataset = [line.strip() for line in file]
         file.close()
     return dataset
+
+
+def read_train_data(
+    path: str,
+    src: Field,
+    trg: Field,
+    batch_size: int,
+    device: str,
+) -> BucketIterator:
+    """Give train data in train cycle
+
+    Get path to the train data, Fields for source
+    and target, batch_size and device.
+    Forms train_iterator (Bucket Iterator) and returns it.
+
+    Args:
+
+        path: str - path to train data.
+        src: Field - pretrained field for train data (source language)
+        trg: Field - pretrained field for train data (target language)
+        batch_size: int - how many observations should be there is a batch.
+        device: str - what to use 'cuda' or 'cpu' devices.
+
+    Return:
+
+        BucketIterator: train data ready for model training cycle.
+
+    """
+
+    fields = {
+        "Source": ("src", src),
+        "Target": ("trg", trg),
+    }
+
+    try:
+        train_data = TabularDataset(
+            path=path,
+            format="tsv",
+            fields=fields,
+        )
+    except OSError:
+        print("Unable to form train dataset!")
+        sys.exit()
+
+    train_iter = BucketIterator(
+        dataset=train_data,
+        batch_size=batch_size,
+        sort_within_batch=True,
+        sort_key=lambda x: len(x.src),
+        device=device,
+    )
+
+    return train_iter

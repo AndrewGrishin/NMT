@@ -1,3 +1,4 @@
+import os
 import random
 import sys
 from typing import Any
@@ -40,8 +41,9 @@ def save_checkpoint(
         state: model.state_dict()
 
     """
-
-    filename: str = "./checkpoint.ptr.tar"
+    if "output" not in os.listdir():
+        os.mkdir("output")
+    filename: str = "./output/checkpoint.ptr.tar"
     torch.save(state, filename)
 
 

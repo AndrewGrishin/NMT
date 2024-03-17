@@ -80,7 +80,7 @@ def translate_sentence(
     return transl_sent[1:]
 
 
-def infer_step(
+def infer_main(
     dataset: Optional[list[str]],
     model: Transformer,
     src: Field,
@@ -92,7 +92,7 @@ def infer_step(
 
     Execute the inference of the model (same as `infer` function)
     but with more parameters, so it is called consequently after the
-    `infer` function. `infer` is some kind of wrapper over `infer_step`.
+    `infer` function. `infer` is some kind of wrapper over `infer_main`.
 
     Args:
 
@@ -182,7 +182,7 @@ def infer(path: str) -> None:
         seed=params_preprocess["seed"]
     )
 
-    infer_step(
+    infer_main(
         dataset=dataset,
         model=model,
         src=src,

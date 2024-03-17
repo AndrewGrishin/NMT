@@ -69,7 +69,7 @@ def init_model(
     else:
         try:
             loaded = torch.load(
-                "./checkpoint.ptr.tar",
+                "./output/checkpoint.ptr.tar",
             )
         except OSError:
             print("File checkpoint.ptr.tar not found!")
