@@ -73,6 +73,13 @@ It is vitally important for the current programme to be cross-platform with no l
 
 The running OS for the current project will be Ubuntu.
 
+## Launch scheme
+
+1. `docker run --rm -it -v ./data/:/home/data/ <image_name>` - it is very important to mount volume with `data.tsv` (train data) and `test.txt` (test data) that will be used during training and inference process.
+2. Run `python -m commands train "./data/data.tsv"` - training model.
+3. Run `python -m commands infer "./data/test.txt"` - evaluating model.
+4. All results will be stored in the `output` folder in container. It is necessary to copy results in your local (mounted) directory, else it will be erased just after the container stops working.
+
 ## References
 
 1. [Attention is all you need](https://arxiv.org/abs/1706.03762).
