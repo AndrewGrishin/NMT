@@ -1,5 +1,34 @@
 # Neural Machine Translation (NMT)
 
+## Project scheme
+
+**NOTE**: all the folder in the repository are mentioned here, however, the list of directories is not complete. `tests` and `data` folders are not committed.
+
+```bash
+.
+├── mlops
+│   ├── models
+│   │   ├── __init__.py
+│   │   ├── loading.py
+│   │   └── transformer.py
+│   ├── preprocess
+│   │   └── __init__.py
+│   ├── utils
+│   │   └── __init__.py
+│   ├── __init__.py
+│   ├── train.py
+│   └── infer.py
+├── config
+│   ├── __init__.py
+│   └── ml.yaml
+├── commands.py
+├── Dockerfile
+├── poetry.lock
+├── pyproject.toml
+├── .gitignore
+└── README.md
+```
+
 ## Abstract
 
 In todays world the idea of AI application spreads tremendously fast. So, nowadays there is almost no sphere of human's life which AI is not incorporated with. The main goal of this project is to provide sustainable translation system for the daily usage, allowing people of different language cultures to interact with each other. 
