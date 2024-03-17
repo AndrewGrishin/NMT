@@ -6,13 +6,13 @@ authors = ["Andrey Grishin <grishinandreyy@icloud.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "3.11.8"
-tqdm = "4.66.2"
-torch = "2.2.1"
+python = "^3.11.8"
+tqdm = "^4.66.2"
+torch = "^2.2.1"
 torchtext = "0.6.0"
-fire = "0.6.0"
-spacy = "3.7.4"
-pyyaml = "6.0.1"
+fire = "^0.6.0"
+spacy = "^3.7.4"
+pyyaml = "^6.0.1"
 
 
 [build-system]
